@@ -17,7 +17,8 @@ public class SpoutPlugin : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
     }
     
-	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target)
+	//public SpoutPlugin(TargetInfo Target) //ORIGINAL
+	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed
 	{
 
         PublicIncludePaths.AddRange(
