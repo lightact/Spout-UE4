@@ -1,4 +1,4 @@
-*Modification of original plugin by [AleDel](https://github.com/AleDel/Spout-UE4) in order to make it work with UE4.19. This was tested and it works, but please check Issues below*
+*Modification of original plugin by [AleDel](https://github.com/AleDel/Spout-UE4) in order to make it work with 4.19 and 4.20. This was tested and it works, but please check Issues below*
 # Spout-UE4
 [Spout](http://spout.zeal.co/) Plugin for Unreal Engine
 
