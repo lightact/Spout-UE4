@@ -6,7 +6,7 @@ Sender and Receiver only DirectX 11.
 
 # Installation and Use
 
-Put code in folder Plugins (for example "yourproject/Plugins/SpoutUE4")
+Put code in folder Plugins (for example "yourproject/Plugins/SpoutUE4"). For detailed instructions please refer to [Lightact support page](https://support.lightact-systems.com)
 
 # Info
 
