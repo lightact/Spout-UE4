@@ -56,6 +56,12 @@ void ResetMatInstance(UTexture2D*& Texture, UMaterialInstanceDynamic*& MaterialI
 	// Create material instance
 	if (!MaterialInstance)
 	{
+		//FIX BY KARANMONSTER
+		UMaterialInterface* mBase_Material = 0; 
+		mBase_Material = LoadObject<UMaterial>(NULL, TEXT("/SpoutPlugin/Materials/SpoutMaterial.SpoutMaterial"), NULL, LOAD_None, NULL);
+		BaseMaterial = mBase_Material;
+		//end of fix
+
 		MaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, NULL);
 		if (!MaterialInstance)
 		{

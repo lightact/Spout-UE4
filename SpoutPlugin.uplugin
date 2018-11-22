@@ -1,19 +1,20 @@
 {
 	"FileVersion": 3,
+	"Version": 3,
+	"VersionName": "1.2",
 	"FriendlyName": "Spout Plugin",
-	"Version": 2,
-	"VersionName": "1.1",
 	"CreatedBy": "ale",
 	"CreatedByURL": "",
 	"Category": "Spout",
-	"Description": "Spout Sender Receiver",
-	"EnabledByDefault": false,
+	"Description": "Enables sending and receiving of textures via Spout framework (http://spout.zeal.co/).",
+	"SupportURL": "https://support.lightact-systems.com",
+	"EnabledByDefault": true,
+	"CanContainContent" : "true",
 	"Modules": [
 		{
 			"Name": "SpoutPlugin",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
-	],
-	"CanContainContent" : "true"
+	]
 }
