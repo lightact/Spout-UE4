@@ -18,8 +18,10 @@ public class SpoutPlugin : ModuleRules
     }
     
 	//public SpoutPlugin(TargetInfo Target) //ORIGINAL
-	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed
+	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed for 4.20
 	{
+        //PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
+        PrivatePCHHeaderFile = "Private/SpoutPluginPrivatePCH.h";
 
         PublicIncludePaths.AddRange(
             new string[] {
