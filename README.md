@@ -6,28 +6,28 @@
 * 4.21
 
 # Spout-UE4
-[Spout](http://spout.zeal.co/) Plugin for Unreal Engine
+This is a [Spout](http://spout.zeal.co/) Plugin for Unreal Engine. It allows you to send and receive textures using Spout framework.
 
 Sender and Receiver only DirectX 11.
 
 # Installation and Use
 
-Put code in folder Plugins (for example "yourproject/Plugins/SpoutUE4"). For detailed instructions please refer to [Lightact support page](https://support.lightact-systems.com)
+Put code in _Plugins_ folder (for example "_yourproject/Plugins/SpoutUE4_"). For detailed instructions please refer to [Lightact support page](https://support.lightact-systems.com). There's plenty of User Guides and Video Tutorials on integrating this plugin with your UE4 project.
 
 # Info
 
-the "spout sender" has two options: 
-  * "Game Viewport" that send the image of the viewport (doesn't work in standalone game) 
-  * or use a "TextureRenderTarget2D" in this case you should create a "SceneCaptureComponent2D"
+the **Spout sender** node has two options: 
+  * **Game Viewport** sends the image of the viewport, but please note that it doesn't work in standalone or packaged game.
+  * **TextureRenderTarget2D** in which case you should create a _SceneCaptureComponent2D_ and a *Render target 2D* which you should reference in the node.
 
-use "spout close" blueprint to close spouts
+use **Close Sender** node to close spouts
 
 ![CaptureSpout2](http://aledel.github.io/Spout-UE4/images/10senders.jpg)
-test sending 10 sender to Touchdesigner 1024x768 either one, the performance is good.
+A test of sending 10 sender to Touchdesigner 1024x768 either one, the performance is good.
 
 # Install Example
 
-* Create new c++ First Person project
+* Create new C++ *First Person* project
 * unzip ExampleSpout.zip in the "Content" folder of your project
 * unzip code plugin in folder "Plugins" as mentioned above, if there is no "Plugins" folder, create it
 * restart project

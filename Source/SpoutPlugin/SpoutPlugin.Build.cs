@@ -17,7 +17,6 @@ public class SpoutPlugin : ModuleRules
         get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
     }
     
-	//public SpoutPlugin(TargetInfo Target) //ORIGINAL
 	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed for 4.20
 	{
         //PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
