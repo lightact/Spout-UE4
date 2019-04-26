@@ -19,14 +19,12 @@ public class SpoutPlugin : ModuleRules
     
 	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed for 4.20
 	{
-        //PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
         PrivatePCHHeaderFile = "Private/SpoutPluginPrivatePCH.h";
 
         PublicIncludePaths.AddRange(
             new string[] {
-				"SpoutPlugin/Public",
+				Path.Combine(ModulePath, "Public"),
                 Path.Combine(ThirdPartyPath, "Spout/include")
-				
 				// ... add public include paths required here ...
 			}
             );
@@ -38,8 +36,6 @@ public class SpoutPlugin : ModuleRules
 				// ... add other private include paths required here ...
 			}
             );
-
-		//AddThirdPartyPrivateStaticDependencies(Target, "Spout");
 
 		PublicDependencyModuleNames.AddRange(
 			new string[]
@@ -70,36 +66,13 @@ public class SpoutPlugin : ModuleRules
 			}
             );
 			
-		/*Type = ModuleType.External;
-
-		if (Target.Platform == UnrealTargetPlatform.Win64)
-		{
-			// Add the import library
-			PublicLibraryPaths.Add(Path.Combine(ModuleDirectory, "x64", "Release"));
-			PublicAdditionalLibraries.Add("ExampleLibrary.lib");
-
-			// Delay-load the DLL, so we can load it from the right place first
-			PublicDelayLoadDLLs.Add("ExampleLibrary.dll");
-		}
-        else if (Target.Platform == UnrealTargetPlatform.Mac)
-        {
-            PublicDelayLoadDLLs.Add(Path.Combine(ModuleDirectory, "Mac", "Release", "libExampleLibrary.dylib"));
-        }*/
-
         if ((Target.Platform == UnrealTargetPlatform.Win64) || (Target.Platform == UnrealTargetPlatform.Win32))
         {
             string PlatformString = (Target.Platform == UnrealTargetPlatform.Win64) ? "amd64" : "x86";
             PublicAdditionalLibraries.Add(Path.Combine(ThirdPartyPath, "Spout/lib", PlatformString, "Spout.lib"));
 
-            RuntimeDependencies.Add(new RuntimeDependency(Path.Combine(ThirdPartyPath, "Spout/lib", PlatformString, "Spout.dll")));
+            RuntimeDependencies.Add(Path.Combine(ThirdPartyPath, "Spout/lib", PlatformString, "Spout.dll"));
             
-            // Delay-load the DLL, so we can load it from the right place first
-            //PublicDelayLoadDLLs.Add(Path.Combine(ThirdPartyPath, "Spout/lib", PlatformString, "Spout.dll"));
-            
-            /*PublicIncludePaths.AddRange(
-                new string[] {
-					Path.Combine(ThirdPartyPath, "Spout/include")
-				});*/
         }
         
 	}
