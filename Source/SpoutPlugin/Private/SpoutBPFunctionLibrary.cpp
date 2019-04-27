@@ -485,16 +485,11 @@ bool USpoutBPFunctionLibrary::SpoutSender(FName spoutName, ESpoutSendTextureFrom
 	}
 	
 	//Sincroniza el thread del render y la copia de la textura
-	ENQUEUE_UNIQUE_RENDER_COMMAND_TWOPARAMETER(
-		void,
-		ID3D11Texture2D*, tt, targetTex,
-		ID3D11Texture2D*, bt, baseTexture,
-		{
-			
-			g_pImmediateContext->CopyResource(tt, bt);
-			g_pImmediateContext->Flush(); 	
-			
-		});
+	ENQUEUE_RENDER_COMMAND(void)(
+		[targetTex, baseTexture](FRHICommandListImmediate& RHICmdList){
+		g_pImmediateContext->CopyResource(targetTex, baseTexture);
+		g_pImmediateContext->Flush(); 	
+	});
 	
 	D3D11_TEXTURE2D_DESC td;
 	baseTexture->GetDesc(&td);
@@ -558,14 +553,15 @@ bool USpoutBPFunctionLibrary::SpoutReceiver(const FName spoutName, UMaterialInst
 
 			//communication between the two threads (rendering thread and game thread)
 			// copy pixels from shared resource texture to texture temporal and update 
-			ENQUEUE_UNIQUE_RENDER_COMMAND_FOURPARAMETER(
-				void,
-				ID3D11Texture2D*, t_texTemp, SenderStruct->texTemp,
-				ID3D11Texture2D*, t_tex, (ID3D11Texture2D*)SenderStruct->sharedResource,
-				int32, Stride, SenderStruct->w * 4,
-				FSenderStruct*, Params, SenderStruct,
+			int32 Stride = SenderStruct->w * 4;
+
+			ENQUEUE_RENDER_COMMAND(void)(
+				[SenderStruct, Stride](FRHICommandListImmediate& RHICmdList)
 				{
-					if (Params == nullptr) {
+					ID3D11Texture2D* t_texTemp = SenderStruct->texTemp;
+					ID3D11Texture2D* t_tex = (ID3D11Texture2D*)SenderStruct->sharedResource;
+
+					if (SenderStruct == nullptr) {
 						return;
 					}
 		
@@ -586,9 +582,13 @@ bool USpoutBPFunctionLibrary::SpoutReceiver(const FName spoutName, UMaterialInst
 
 
 					//Update Texture
-					RHIUpdateTexture2D(Params->Texture2DResource->GetTexture2DRHI(), 0, *Params->UpdateRegions, mapped.RowPitch, (uint8*)pixel);
-
-
+					RHIUpdateTexture2D(
+						SenderStruct->Texture2DResource->GetTexture2DRHI(),
+						0,
+						*SenderStruct->UpdateRegions,
+						mapped.RowPitch,
+						(uint8*)pixel
+					);
 				});
 
 			texture = SenderStruct->TextureColor;
