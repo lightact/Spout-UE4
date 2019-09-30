@@ -8,6 +8,79 @@ namespace UnrealBuildTool.Rules
     public class SpoutPlugin : ModuleRules
     {
 
+<<<<<<< HEAD
+    private string ThirdPartyPath
+    {
+        get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
+    }
+    
+	//public SpoutPlugin(TargetInfo Target) //ORIGINAL
+	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed for 4.20
+	{
+        //PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
+        PrivatePCHHeaderFile = "Private/SpoutPluginPrivatePCH.h";
+
+        PublicIncludePaths.AddRange(
+            new string[] {
+				"SpoutPlugin/Public",
+                Path.Combine(ThirdPartyPath, "Spout/include")
+				
+				// ... add public include paths required here ...
+			}
+            );
+        
+
+        PrivateIncludePaths.AddRange(
+            new string[] {
+				"SpoutPlugin/Private",
+				// ... add other private include paths required here ...
+			}
+            );
+
+		//AddThirdPartyPrivateStaticDependencies(Target, "Spout");
+
+		PublicDependencyModuleNames.AddRange(
+			new string[]
+			{
+				"Core",
+				"CoreUObject",
+                "Engine",
+                "RHI",
+                "RenderCore"
+				// ... add other public dependencies that you statically link with here ...
+			}
+			);
+
+        PrivateDependencyModuleNames.AddRange(
+            new string[]
+			{
+				"Slate", "SlateCore"
+				// ... add private dependencies that you statically link with here ...	
+			}
+            );
+
+
+        DynamicallyLoadedModuleNames.AddRange(
+            new string[]
+			{
+				
+				// ... add any modules that your module loads dynamically here ...
+			}
+            );
+			
+		/*Type = ModuleType.External;
+
+		if (Target.Platform == UnrealTargetPlatform.Win64)
+		{
+			// Add the import library
+			PublicLibraryPaths.Add(Path.Combine(ModuleDirectory, "x64", "Release"));
+			PublicAdditionalLibraries.Add("ExampleLibrary.lib");
+
+			// Delay-load the DLL, so we can load it from the right place first
+			PublicDelayLoadDLLs.Add("ExampleLibrary.dll");
+		}
+        else if (Target.Platform == UnrealTargetPlatform.Mac)
+=======
         private string ModulePath {
             get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../")); }
         }
@@ -17,6 +90,7 @@ namespace UnrealBuildTool.Rules
         }
 
         public string GetUProjectPath()
+>>>>>>> e049118b19595ff96085071eec01e5b26d847db6
         {
             return Path.Combine(ModuleDirectory, "../../../..");
         }
