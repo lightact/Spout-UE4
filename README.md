@@ -5,7 +5,7 @@
 * 4.20
 * 4.21
 * 4.22
-* 4.23 (by merging with [L05's fork](https://github.com/L05/Spout-UE4)
+* 4.23 (by merging with [L05's fork](https://github.com/L05/Spout-UE4)) )
 
 # Spout-UE4
 This is a [Spout](http://spout.zeal.co/) Plugin for Unreal Engine. It allows you to send and receive textures using Spout framework.
@@ -26,7 +26,7 @@ Use **Close Sender** node to close Spouts. The best way is to connect it to **Ev
 
 ## Working sample
 
-On Lightact website you can download [Lightact & Unreal Engine Sample Project](https://lightact-systems.com/product/lightact-and-unreal-engine/). It has both this and [Lightact plugin](https://github.com/lightact/Lightact-UE4 enabled.
+On Lightact website you can download [Lightact & Unreal Engine Sample Project](https://lightact-systems.com/product/lightact-and-unreal-engine/). It has both this and [Lightact plugin](https://github.com/lightact/Lightact-UE4)   enabled.
 
 ## Packaged game
 To make this plugin work in a packaged game you have to disable using 'pak' files. You do that by:
