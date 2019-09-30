@@ -9,12 +9,21 @@ namespace UnrealBuildTool.Rules
     {
 
 <<<<<<< HEAD
+        private string ModulePath {
+            get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../")); }
+        }
+
+        private string ThirdPartyPath {
+            get { return Path.GetFullPath(Path.Combine(ModulePath, "ThirdParty/")); }
+        }
+
+        public string GetUProjectPath()
+=======
     private string ThirdPartyPath
     {
         get { return Path.GetFullPath(Path.Combine(ModulePath, "../../ThirdParty/")); }
     }
     
-	//public SpoutPlugin(TargetInfo Target) //ORIGINAL
 	public SpoutPlugin(ReadOnlyTargetRules Target) : base(Target) // changed for 4.20
 	{
         //PCHUsage = ModuleRules.PCHUsageMode.NoSharedPCHs;
@@ -80,17 +89,7 @@ namespace UnrealBuildTool.Rules
 			PublicDelayLoadDLLs.Add("ExampleLibrary.dll");
 		}
         else if (Target.Platform == UnrealTargetPlatform.Mac)
-=======
-        private string ModulePath {
-            get { return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../")); }
-        }
-
-        private string ThirdPartyPath {
-            get { return Path.GetFullPath(Path.Combine(ModulePath, "ThirdParty/")); }
-        }
-
-        public string GetUProjectPath()
->>>>>>> e049118b19595ff96085071eec01e5b26d847db6
+>>>>>>> cea7281c5e9b1eea81e4654a0a4e76701ab9a78c
         {
             return Path.Combine(ModuleDirectory, "../../../..");
         }
