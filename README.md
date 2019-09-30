@@ -25,10 +25,6 @@ This is done with the **Spout sender** node which has can send texture either fr
 use **Close Sender** node to close Spouts. The best way is to connect it to **Event EndPlay** node.
 
 ## Install Example
-![CaptureSpout2](http://aledel.github.io/Spout-UE4/images/10senders.jpg)
-test sending 10 sender to Touchdesigner 1024x768 either one, the performance is good.
-
-# Install Example
 
 * Create new C++ *First Person* project
 * unzip ExampleSpout.zip in the "Content" folder of your project
@@ -41,20 +37,6 @@ test sending 10 sender to Touchdesigner 1024x768 either one, the performance is 
 
 ![CaptureSpout2](http://aledel.github.io/Spout-UE4/images/spout2.jpg)
 This image corresponds to the "Spout" scene. 
-
-# Packaged game
-To make this plugin work in a packaged game you have to disable using 'pak' files. You do that by:
-1. going to File->Package project->Packaging settings
-2. once there uncheck 'Use Pak File' checkbox
-
-# Issues
-If you get missing Spout.dll error when trying to launch the game manually copy Spout.dll from:
-[gameName]\Plugins\SpoutUE4\ThirdParty\Spout\lib\amd64
-
-to: 
-[gameName]\Binaries\Win64
-
-**If someone knows how to fix this, please let me know!**
 
 ## Packaged game
 To make this plugin work in a packaged game you have to disable using 'pak' files. You do that by:

@@ -56,12 +56,6 @@ void ResetMatInstance(UTexture2D*& Texture, UMaterialInstanceDynamic*& MaterialI
 	// Create material instance
 	if (!MaterialInstance)
 	{
-		//FIX BY KARANMONSTER
-		UMaterialInterface* mBase_Material = 0; 
-		mBase_Material = LoadObject<UMaterial>(NULL, TEXT("/SpoutPlugin/Materials/SpoutMaterial.SpoutMaterial"), NULL, LOAD_None, NULL);
-		BaseMaterial = mBase_Material;
-		//end of fix
-
 		MaterialInstance = UMaterialInstanceDynamic::Create(BaseMaterial, NULL);
 		if (!MaterialInstance)
 		{
@@ -191,13 +185,6 @@ FSenderStruct* RegisterReceiver(FName spoutName){
 	unsigned long format;
 
 	sender->GetSenderInfo(TCHAR_TO_ANSI(*spoutName.ToString()), w, h, sHandle, format);
-	ANSICHAR AnsiSpoutName[NAME_SIZE];
-	spoutName.GetPlainANSIString(AnsiSpoutName);
-	sender->GetSenderInfo(AnsiSpoutName, w, h, sHandle, format);
-#else
-#endif  
-	//sender->GetSenderInfo(spoutName.GetPlainANSIString(), w, h, sHandle, format);
-	
 
 	FSenderStruct* newFSenderStruc = new FSenderStruct();
 	newFSenderStruc->SetH(h);
@@ -345,14 +332,8 @@ bool USpoutBPFunctionLibrary::CreateRegisterSender(FName spoutName, ID3D11Textur
 	const auto tmp = spoutName.GetPlainNameString();
 	UE_LOG(SpoutLog, Warning, TEXT("Created Sender: name --> %s"), *tmp);
 
-#if ENGINE_MINOR_VERSION > 20 //Fix for 4.21
+	//
 	senderResult = sender->CreateSender(TCHAR_TO_ANSI(*spoutName.ToString()), desc.Width, desc.Height, sharedSendingHandle, texFormat);
-	spoutName.GetPlainANSIString(AnsiSpoutName);
-	senderResult = sender->CreateSender(AnsiSpoutName, desc.Width, desc.Height, sharedSendingHandle, texFormat);
-#else
-#endif  
-	//senderResult = sender->CreateSender(spoutName.GetPlainANSIString(), desc.Width, desc.Height, sharedSendingHandle, texFormat);
-
 	UE_LOG(SpoutLog, Warning, TEXT("Created sender DX11 with sender name : %s"), *tmp);
 
 	// remove old sender register
@@ -387,14 +368,6 @@ ESpoutState CheckSenderState(FName spoutName){
 	ESpoutState state = ESpoutState::noEnoR;
 
 	if (sender->FindSenderName(TCHAR_TO_ANSI(*spoutName.ToString()))) {
-#if ENGINE_MINOR_VERSION > 20 //Fix for 4.21
-	ANSICHAR AnsiSpoutName[NAME_SIZE];
-	spoutName.GetPlainANSIString(AnsiSpoutName);
-	if (sender->FindSenderName(AnsiSpoutName)) {
-#else
-#endif  
-	//if (sender->FindSenderName(spoutName.GetPlainANSIString())) {
-	
 		//UE_LOG(SpoutLog, Warning, TEXT("Sender State: --> Exist"));
 		if (bIsInListSenders) {
 			//UE_LOG(SpoutLog, Warning, TEXT("Sender State: --> Exist y Registred"));
@@ -515,13 +488,6 @@ bool USpoutBPFunctionLibrary::SpoutSender(FName spoutName, ESpoutSendTextureFrom
 	baseTexture->GetDesc(&td);
 
 	result = sender->UpdateSender(TCHAR_TO_ANSI(*spoutName.ToString()), td.Width, td.Height, targetHandle);
-	ANSICHAR AnsiSpoutName[NAME_SIZE];
-	spoutName.GetPlainANSIString(AnsiSpoutName);
-	result = sender->UpdateSender(AnsiSpoutName, td.Width, td.Height, targetHandle);
-#else
-#endif  
-	//result = sender->UpdateSender(spoutName.GetPlainANSIString(), td.Width, td.Height, targetHandle);
-	
 
 	return result;
 }
@@ -669,13 +635,6 @@ void USpoutBPFunctionLibrary::CloseSender(FName spoutName)
 			// here really release the sender
 			sender->ReleaseSenderName(TCHAR_TO_ANSI(*spoutName.ToString()));
 			UE_LOG(SpoutLog, Warning, TEXT("Sender %s released"), *spoutName.GetPlainNameString());
-			ANSICHAR AnsiSpoutName[NAME_SIZE];
-			spoutName.GetPlainANSIString(AnsiSpoutName);
-			sender->ReleaseSenderName(AnsiSpoutName);
-#else
-#endif  
-			//sender->ReleaseSenderName(spoutName.GetPlainANSIString());
-			
 			
 		}
 		else {
