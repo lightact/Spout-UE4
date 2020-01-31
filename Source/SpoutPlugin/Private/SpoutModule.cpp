@@ -3,8 +3,7 @@
 #include "SpoutPluginPrivatePCH.h"
 
 #include "Core.h"
-#include "ModuleManager.h"
-//#include "IPluginManager.h"
+
 
 DEFINE_LOG_CATEGORY(SpoutLog);
 
