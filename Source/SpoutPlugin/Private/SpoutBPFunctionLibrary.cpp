@@ -126,7 +126,7 @@ UTextureRenderTarget2D* USpoutBPFunctionLibrary::CreateTextureRenderTarget2D(int
 
 void initSpout()
 {
-	UE_LOG(SpoutLog, Warning, TEXT("-----------> Init Spout"));
+	UE_LOG(SpoutLog, Display, TEXT("-----------> Init Spout"));
 	
 	sender = new spoutSenderNames;
 	interop = new spoutGLDXinterop;
@@ -135,7 +135,7 @@ void initSpout()
 
 void GetDevice()
 {
-	UE_LOG(SpoutLog, Warning, TEXT("-----------> Set Graphics Device D3D11"));
+	UE_LOG(SpoutLog, Display, TEXT("-----------> Set Graphics Device D3D11"));
 
 	g_D3D11Device = (ID3D11Device*)GDynamicRHI->RHIGetNativeDevice();
 	g_D3D11Device->GetImmediateContext(&g_pImmediateContext);
@@ -205,7 +205,6 @@ FSenderStruct* RegisterReceiver(FName spoutName){
 	newFSenderStruc->rView = nullptr;
 	newFSenderStruc->texTemp = NULL;
 
-	//TextureColor = new
 	UE_LOG(SpoutLog, Warning, TEXT("No material intance, creating...//////"));
 	// Prepara Textura, Set the texture update region
 	newFSenderStruc->UpdateRegions = new FUpdateTextureRegion2D(0, 0, 0, 0, newFSenderStruc->w, newFSenderStruc->h);
@@ -440,12 +439,15 @@ bool USpoutBPFunctionLibrary::SpoutSender(FName spoutName, ESpoutSendTextureFrom
 	ESpoutState state = CheckSenderState(spoutName);
 
 	if (state == ESpoutState::noEnoR || state == ESpoutState::noER) {
-		UE_LOG(SpoutLog, Warning, TEXT("New Sender creating, registering..."));
+		UE_LOG(SpoutLog, Display, TEXT("New Sender creating, registering..."));
 		CreateRegisterSender(spoutName, baseTexture);
 		return false;
 	}
 	if (state == ESpoutState::EnoR) {
-		UE_LOG(SpoutLog, Warning, TEXT("Already exist a Sender with the name %s"), *spoutName.GetPlainNameString());
+		UE_LOG(SpoutLog, Display, TEXT("Sender with the name %s already exists, deleting existing instance..."), *spoutName.GetPlainNameString());
+		USpoutBPFunctionLibrary::CloseSender(spoutName);
+		UE_LOG(SpoutLog, Display, TEXT("New Sender creating, registering..."));
+		CreateRegisterSender(spoutName, baseTexture);
 		return false;
 	}
 	if (state == ESpoutState::ER) {
@@ -455,7 +457,7 @@ bool USpoutBPFunctionLibrary::SpoutSender(FName spoutName, ESpoutSendTextureFrom
 			D3D11_TEXTURE2D_DESC td;
 			baseTexture->GetDesc(&td);
 			if (td.Width != SenderStruct->w || td.Height != SenderStruct->h) {
-				UE_LOG(SpoutLog, Warning, TEXT("Texture Size has changed, Updating registered spout: "), *spoutName.GetPlainNameString());
+				UE_LOG(SpoutLog, Display, TEXT("Texture Size has changed, Updating registered spout: "), *spoutName.GetPlainNameString());
 				UpdateRegisteredSpout(spoutName, baseTexture);
 				return false;
 			}
@@ -602,7 +604,7 @@ bool USpoutBPFunctionLibrary::SpoutReceiver(const FName spoutName, UMaterialInst
 void USpoutBPFunctionLibrary::CloseSender(FName spoutName)
 {
 
-	UE_LOG(SpoutLog, Warning, TEXT("Closing... sender %s "), *spoutName.GetPlainNameString());
+	UE_LOG(SpoutLog, Display, TEXT("Closing... sender %s "), *spoutName.GetPlainNameString());
 
 	if (sender == nullptr)
 	{
@@ -626,7 +628,7 @@ void USpoutBPFunctionLibrary::CloseSender(FName spoutName)
 		//return;
 	}
 	if (state == ESpoutState::EnoR) {
-			UE_LOG(SpoutLog, Warning, TEXT("Already exist a Sender with the name %s, You can not close a sender that is not yours.??"), *spoutName.GetPlainNameString());	
+			UE_LOG(SpoutLog, Warning, TEXT("Will close external sender with the name %s"), *spoutName.GetPlainNameString());	
 		//return;
 	}
 	if (state == ESpoutState::ER) {
@@ -635,37 +637,37 @@ void USpoutBPFunctionLibrary::CloseSender(FName spoutName)
 		GetSpoutRegistred(spoutName, tempSenderStruct);
 		
 		if (tempSenderStruct->spoutType == ESpoutType::Sender) {
-			UE_LOG(SpoutLog, Warning, TEXT("releasing sender %s"), *spoutName.GetPlainNameString());
+			UE_LOG(SpoutLog, Display, TEXT("releasing sender %s"), *spoutName.GetPlainNameString());
 			// here really release the sender
 			sender->ReleaseSenderName(TCHAR_TO_ANSI(*spoutName.ToString()));
 			
-			UE_LOG(SpoutLog, Warning, TEXT("sender %s released"), *spoutName.GetPlainNameString());
+			UE_LOG(SpoutLog, Display, TEXT("sender %s released"), *spoutName.GetPlainNameString());
 			
 		}
 		else {
-			UE_LOG(SpoutLog, Warning, TEXT("receiver always listening"));
+			UE_LOG(SpoutLog, Display, TEXT("receiver always listening"));
 
 			FlushRenderingCommands();
 			if (tempSenderStruct->sharedResource != nullptr) {
-				UE_LOG(SpoutLog, Warning, TEXT("Release sharedResource"));
+				UE_LOG(SpoutLog, Display, TEXT("Release sharedResource"));
 				tempSenderStruct->sharedResource->Release();
 			}
 			if (tempSenderStruct->texTemp != nullptr) {
-				UE_LOG(SpoutLog, Warning, TEXT("Release Temporal texTemp"));
+				UE_LOG(SpoutLog, Display, TEXT("Release Temporal texTemp"));
 				tempSenderStruct->texTemp->Release();
 			}
 			if (tempSenderStruct->rView != nullptr) {
-				UE_LOG(SpoutLog, Warning, TEXT("Release rView"));
+				UE_LOG(SpoutLog, Display, TEXT("Release rView"));
 				tempSenderStruct->rView->Release();
 			}
-			UE_LOG(SpoutLog, Warning, TEXT("Released All Temporal Textures"));
+			UE_LOG(SpoutLog, Display, TEXT("Released All Temporal Textures"));
 			//return;
 		}
 
 		UnregisterSpout(spoutName);
 	}
 
-	UE_LOG(SpoutLog, Warning, TEXT("There are now %i senders remaining "), FSenders.Num());
+	UE_LOG(SpoutLog, Display, TEXT("There are now %i senders remaining "), FSenders.Num());
 	
 
 }
@@ -682,8 +684,8 @@ bool USpoutBPFunctionLibrary::UpdateRegisteredSpout(FName spoutName, ID3D11Textu
 	baseTexture->GetDesc(&desc);
 	ID3D11Texture2D * sendingTexture;
 
-	UE_LOG(SpoutLog, Warning, TEXT("ID3D11Texture2D Info : ancho_%i, alto_%i"), desc.Width, desc.Height);
-	UE_LOG(SpoutLog, Warning, TEXT("ID3D11Texture2D Info : Format is %i"), int(desc.Format));
+	UE_LOG(SpoutLog, Display, TEXT("ID3D11Texture2D Info : ancho_%i, alto_%i"), desc.Width, desc.Height);
+	UE_LOG(SpoutLog, Display, TEXT("ID3D11Texture2D Info : Format is %i"), int(desc.Format));
 
 	//use the pixel format from basetexture (the native texture textureRenderTarget2D)
 	DXGI_FORMAT texFormat = desc.Format;
@@ -692,7 +694,7 @@ bool USpoutBPFunctionLibrary::UpdateRegisteredSpout(FName spoutName, ID3D11Textu
 	}
 
 	texResult = sdx->CreateSharedDX11Texture(g_D3D11Device, desc.Width, desc.Height, texFormat, &sendingTexture, sharedSendingHandle);
-	UE_LOG(SpoutLog, Warning, TEXT("Create shared Texture with SDX : %i"), texResult);
+	UE_LOG(SpoutLog, Display, TEXT("Create shared Texture with SDX : %i"), texResult);
 
 	if (!texResult)
 	{
@@ -701,7 +703,7 @@ bool USpoutBPFunctionLibrary::UpdateRegisteredSpout(FName spoutName, ID3D11Textu
 	}
 
 	// update register
-	UE_LOG(SpoutLog, Warning, TEXT("Updating Sender in Sender list"));
+	UE_LOG(SpoutLog, Display, TEXT("Updating Sender in Sender list"));
 
 	for (int32 Index = 0; Index != FSenders.Num(); ++Index)
 	{
