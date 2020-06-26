@@ -7,6 +7,7 @@
 * 4.22
 * 4.23 
 * 4.24
+* 4.25
 
 # Spout-UE4
 This is a [Spout](http://spout.zeal.co/) Plugin for Unreal Engine. It allows you to send and receive textures using Spout framework.
