@@ -1,3 +1,15 @@
+# Important
+As of January 2021, this fork of the original Spout-UE4 plugin by [AleDel](https://github.com/AleDel/Spout-UE4) is not maintained anymore by VISIBLE d.o.o. (owner of LightAct media server). The reason is that as of release 3.7.0, LightAct has stopped relying on Spout for texture sharing and uses native Texture Sharing instead.
+
+You can get more information about the new workflow on [Media Server for Unreal Engine](https://lightact.io/unreal-engine/) page.
+
+If you are looking for Spout-UE4 plugin, please go the original repository by [AleDel](https://github.com/AleDel/Spout-UE4).
+
+For the purpose of reference, we are leaving the previous readme file accessible below.
+
+---
+
+
 *Modification of original plugin by [AleDel](https://github.com/AleDel/Spout-UE4) with UE versions 4.19+.*
 
 **This was tested with:**
